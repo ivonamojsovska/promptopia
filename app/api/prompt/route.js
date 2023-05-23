@@ -10,6 +10,6 @@ export const GET = async (req) => {
         return new Response(JSON.stringify(prompts), { status: 200 })
 
     } catch (err) {
-        return new Response("Failed to fetch", { status: 500 })
+        return new Response("Failed to load", { status: 500 })
     }
 }
