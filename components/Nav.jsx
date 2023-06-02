@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { set } from "mongoose";
 
 function Nav() {
+  const router = useRouter();
   const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
@@ -19,6 +21,10 @@ function Nav() {
     };
     setProvider();
   }, []);
+
+  const backToHomePage = () => {
+    router.push("/");
+  };
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -104,6 +110,7 @@ function Nav() {
                   onClick={() => {
                     setToggleDropDown(false);
                     signOut;
+                    backToHomePage();
                   }}
                   className="mt-5 w-full black_btn"
                 >

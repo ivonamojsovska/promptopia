@@ -16,7 +16,6 @@ const MyProfile = () => {
     const fetchPost = async () => {
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
       const data = await response.json();
-      console.log(data);
 
       setPosts(data);
     };
@@ -24,10 +23,28 @@ const MyProfile = () => {
   }, [session?.user.id]);
 
   const handleEdit = (post) => {
+    console.log(post);
     router.push(`/update-prompt?id=${post._id}`);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async (post) => {
+    const hasConfirmed = confirm("Are you sure you want to delete the prompt?");
+
+    if (hasConfirmed) {
+      try {
+        const id = post;
+        console.log(id);
+        await fetch(`/api/prompt/${id}`, {
+          method: "DELETE",
+        });
+
+        const filteredPosts = posts.filter((p) => p._id !== post._id);
+        setPosts(filteredPosts);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <Profile
